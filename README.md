@@ -1,11 +1,11 @@
-# 🛡️ Home SOC Lab — Beginner's Guide
+# 🛡️ Home SOC Lab - Beginner's Guide
 
 ![Lab Status](https://img.shields.io/badge/Status-Active-brightgreen)
 ![Platform](https://img.shields.io/badge/Platform-VirtualBox-blue)
 ![SIEM](https://img.shields.io/badge/SIEM-Splunk-orange)
 ![OS](https://img.shields.io/badge/OS-Windows%2010%20%7C%20Kali%20Linux-lightgrey)
 
-A home Security Operations Centre (SOC) lab built with VirtualBox, Sysmon, and Splunk. This project simulates a real-world attack and detection cycle — from network reconnaissance to log analysis — using two virtual machines.
+A home Security Operations Centre (SOC) lab built with VirtualBox, Sysmon, and Splunk. This project simulates a real-world attack and detection cycle from network reconnaissance to log analysis using two virtual machines.
 
 ---
 
@@ -24,7 +24,7 @@ Attacker (Kali) → Generates Events → Sysmon Logs → Splunk Indexes → Anal
 | Kali Linux | Attacker machine |
 | Windows 10 | Target / victim machine |
 | Sysmon | Endpoint telemetry (Event logging) |
-| Splunk Enterprise | SIEM — log collection and analysis |
+| Splunk Enterprise | SIEM - log collection and analysis |
 
 ---
 
@@ -32,7 +32,7 @@ Attacker (Kali) → Generates Events → Sysmon Logs → Splunk Indexes → Anal
 
 ![Flowchart](screenshots/flowchart.png)
 
-**Network:** VirtualBox Internal Network — traffic is fully isolated from the host machine.
+**Network:** VirtualBox Internal Network traffic is fully isolated from the host machine.
 
 ---
 
@@ -79,14 +79,14 @@ Both VMs must be on the same isolated internal network.
 Settings → Network → Adapter 1 → Internal Network → Name: "soclab"
 ```
 
-**Windows 10 — set static IP:**
+**Windows 10 - set static IP:**
 ```
 Control Panel → Network → Ethernet → IPv4 Properties
   IP Address:  192.168.100.20
   Subnet Mask: 255.255.255.0
 ```
 
-**Kali Linux — set static IP:**
+**Kali Linux - set static IP:**
 ```
 Right-click network icon → Edit Connections → Double click on your network interface → IPv4 Settings
   Method:  Manual
@@ -102,7 +102,7 @@ ping 192.168.100.20
 
 ### 4. Sysmon Installation
 
-Sysmon (System Monitor) provides detailed Windows event logging — far beyond native Windows logs.
+Sysmon (System Monitor) provides detailed Windows event logging - far beyond native Windows logs.
 
 **On Windows 10 (PowerShell as Administrator):**
 
@@ -179,7 +179,7 @@ cd "C:\Program Files\Splunk\bin"
 .\splunk.exe restart
 ```
 
-**Verify logs are flowing — search in Splunk:**
+**Verify logs are flowing - search in Splunk:**
 ```
 index=main source="WinEventLog:Microsoft-Windows-Sysmon/Operational" | stats count by EventCode
 ```
@@ -212,7 +212,7 @@ index=main source="WinEventLog:Microsoft-Windows-Sysmon/Operational" | stats cou
 ### Network Reconnaissance (Nmap)
 
 ```bash
-# TCP Connect scan — generates EventID 3 in Sysmon
+# TCP Connect scan generates EventID 3 in Sysmon
 nmap -sT 192.168.100.20
 ```
 
