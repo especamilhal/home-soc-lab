@@ -50,22 +50,7 @@ Attacker (Kali) → Generates Events → Sysmon Logs → Splunk Indexes → Anal
 
 ## Architecture
 
-```
-┌─────────────────────────────────────────────┐
-│         VirtualBox Internal Network          │
-│              192.168.100.0/24                │
-│                                              │
-│  ┌─────────────────┐   ┌──────────────────┐ │
-│  │   Kali Linux    │   │   Windows 10     │ │
-│  │ 192.168.100.10  │──▶│ 192.168.100.20   │ │
-│  │                 │   │                  │ │
-│  │ • Nmap          │   │ • Sysmon64       │ │
-│  │ • Hydra         │   │ • Splunk SIEM    │ │
-│  │ • Metasploit    │   │ • Event Logging  │ │
-│  └─────────────────┘   └──────────────────┘ │
-│         Attacker              Target          │
-└─────────────────────────────────────────────┘
-```
+![Flowchart](screenshots/flowchart.png)
 
 **Network:** VirtualBox Internal Network — traffic is fully isolated from the host machine.
 
@@ -76,7 +61,7 @@ Attacker (Kali) → Generates Events → Sysmon Logs → Splunk Indexes → Anal
 - Host machine with at least **8GB RAM** (16GB recommended)
 - **50GB free disk space**
 - [VirtualBox](https://www.virtualbox.org/wiki/Downloads) installed
-- [Splunk](https://www.splunk.com/en_us/download/splunk-enterprise.html) account (free)
+- [Splunk Enterprise](https://www.splunk.com/en_us/download/splunk-enterprise.html) account (free)
 
 **VM Resource Allocation:**
 
@@ -98,7 +83,7 @@ Download and install VirtualBox from [virtualbox.org](https://www.virtualbox.org
 **Windows 10:**
 1. Download the Windows 10 ISO from [microsoft.com](https://www.microsoft.com/en-us/software-download/windows10)
 2. Create a new VM in VirtualBox and attach the ISO
-3. When asked for a product key, choose **"I don't have a product key"**
+3. Before starting up, disable internet connection to skip Microsoft Account
 
 **Kali Linux:**
 1. Download the VirtualBox image from [kali.org](https://www.kali.org/get-kali/#kali-virtual-machines)
@@ -123,7 +108,7 @@ Control Panel → Network → Ethernet → IPv4 Properties
 
 **Kali Linux — set static IP:**
 ```
-Right-click network icon → Edit Connections → IPv4 Settings
+Right-click network icon → Edit Connections → Double click on your network interface → IPv4 Settings
   Method:  Manual
   Address: 192.168.100.10
   Netmask: 24
@@ -218,6 +203,7 @@ cd "C:\Program Files\Splunk\bin"
 ```
 index=main source="WinEventLog:Microsoft-Windows-Sysmon/Operational" | stats count by EventCode
 ```
+![Splunk logs flowing](screenshots/splunk.png)
 
 ---
 
@@ -274,6 +260,7 @@ index=main EventCode=3 SourceIp=192.168.100.10 DestinationPort=22
 ## Detection Examples
 
 ### Detecting Port Scans
+![Nmap Scan](screenshots/nmap_scan.png)
 
 A port scan generates many network connections in a short time from the same source IP.
 
@@ -283,31 +270,6 @@ index=main EventCode=3 SourceIp=192.168.100.10
 | stats count by _time, SourceIp
 | where count > 10
 ```
+![Brute Force Detected](screenshots/bruteforce_detected.png)
 
 ---
-
-## Key Learnings
-
-- How Sysmon enriches Windows event logging beyond native capabilities
-- How a SIEM (Splunk) collects, indexes, and queries security events
-- How to map attack activity to MITRE ATT&CK techniques
-- How to write SPL (Splunk Processing Language) queries for threat detection
-
----
-
-## Next Steps
-
-- [ ] Simulate brute force attacks with Hydra and detect in Splunk
-- [ ] Create Splunk alerts for automated detection
-- [ ] Add Metasploit exploitation and post-exploitation detection
-- [ ] Build a Splunk dashboard for the SOC Lab
-- [ ] Map all detections to MITRE ATT&CK framework
-
----
-
-## References
-
-- [Sysmon — Microsoft Sysinternals](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)
-- [Splunk Documentation](https://docs.splunk.com)
-- [MITRE ATT&CK Framework](https://attack.mitre.org)
-- [Olaf Hartong Sysmon Config](https://github.com/olafhartong/sysmon-modular)
