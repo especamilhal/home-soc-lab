@@ -9,26 +9,6 @@ A home Security Operations Centre (SOC) lab built with VirtualBox, Sysmon, and S
 
 ---
 
-## 📋 Table of Contents
-
-- [Overview](#overview)
-- [Architecture](#architecture)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-  - [1. VirtualBox Setup](#1-virtualbox-setup)
-  - [2. Virtual Machines](#2-virtual-machines)
-  - [3. Network Configuration](#3-network-configuration)
-  - [4. Sysmon Installation](#4-sysmon-installation)
-  - [5. Splunk Installation](#5-splunk-installation)
-  - [6. Connecting Sysmon to Splunk](#6-connecting-sysmon-to-splunk)
-- [Lab Flow](#lab-flow)
-- [Attack Simulations](#attack-simulations)
-- [Detection Examples](#detection-examples)
-- [Key Learnings](#key-learnings)
-- [Next Steps](#next-steps)
-
----
-
 ## Overview
 
 This lab demonstrates a core SOC workflow:
